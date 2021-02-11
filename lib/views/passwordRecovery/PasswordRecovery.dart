@@ -1,14 +1,14 @@
 import "package:flutter/material.dart";
 import 'package:stackclicks_flutter/store/Store.dart';
 
-import "ChangePasswordWidgetView.dart";
+import "PasswordRecoveryWidgetView.dart";
 
-class ChangePassword extends StatefulWidget {
+class PasswordRecovery extends StatefulWidget {
   @override
-  ChangePasswordStateController createState() => ChangePasswordStateController();
+  PasswordRecoveryStateController createState() => PasswordRecoveryStateController();
 }
 
-class ChangePasswordStateController extends State<ChangePassword> {
+class PasswordRecoveryStateController extends State<PasswordRecovery> {
   final GlobalKey<FormState> sendVerificationCodeFormKey = GlobalKey();
   final GlobalKey<FormState> verifyCodeFormKey = GlobalKey();
   final GlobalKey<FormState> resetPasswordFormKey = GlobalKey();
@@ -59,10 +59,10 @@ class ChangePasswordStateController extends State<ChangePassword> {
         resettingPassword = false;
       });
       if(response.status == 200) 
-        store.navigatorKey.currentState.pushReplacementNamed("/dashboard");
+        store.navigatorKey.currentState.pushReplacementNamed("/dashboard/home");
     }
   }
 
   @override
-  Widget build(BuildContext context) => ChangePasswordWidgetView(this);
+  Widget build(BuildContext context) => PasswordRecoveryWidgetView(this);
 }

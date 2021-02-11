@@ -27,5 +27,4 @@ class UserModelManager extends ModelManager {
   ..lastName = map["lastName"]
   ..email = map["email"]
   ..id = map["id"];
-  
 }

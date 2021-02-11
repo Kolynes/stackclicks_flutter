@@ -15,7 +15,6 @@ void main() async {
         initialRoute: "/",
         theme: appTheme,
         navigatorKey: store.navigatorKey,
-        scaffoldMessengerKey: store.scaffoldMessagerKey,
       )
     )
   );

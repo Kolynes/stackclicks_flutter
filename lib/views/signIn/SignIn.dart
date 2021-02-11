@@ -29,13 +29,17 @@ class SignInStateController extends State<SignIn> {
       });
       var response = await store.signIn(email, password);
       if(response.status == 200) {
-        store.navigatorKey.currentState.pushReplacementNamed("/dashboard");
+        store.navigatorKey.currentState.pushReplacementNamed("/dashboard/home");
       }
       else setState((){
         signingIn = false;
         error = response.errors["summary"];
       });
     }
+  }
+
+  void toPasswordRecovery() {
+    store.navigatorKey.currentState.pushNamed("/password_recovery");
   }
 
   @override

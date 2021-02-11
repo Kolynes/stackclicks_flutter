@@ -8,12 +8,23 @@ mixin AccountsModule on PropertyChangeNotifier<ModuleProperties> {
   String lastName;
   String email;
   String referralCode;
+  int referralCount;
+  int id;
+  String bankName;
+  String accountNumber;
+  String accountName;
   bool signedIn;
 
   setAccountsInfo(Map<String, dynamic> payload) {
-    this.firstName = payload["firstName"] ?? this.firstName;
-    this.lastName = payload["lastName"] ?? this.lastName;
-    this.email = payload["email"] ?? this.email;
+    firstName = payload["firstName"] ?? firstName;
+    lastName = payload["lastName"] ?? lastName;
+    email = payload["email"] ?? email;
+    referralCode = payload["referralCode"] ?? referralCode;
+    referralCount = payload["referralCount"] ?? referralCount;
+    id = payload["id"] ?? id;
+    bankName = payload["bankName"] ?? bankName;
+    accountName = payload["accountName"] ?? accountName;
+    accountNumber = payload["accountNumber"] ?? accountNumber;
     notifyListeners(ModuleProperties.accounts);
   }
 
@@ -22,6 +33,11 @@ mixin AccountsModule on PropertyChangeNotifier<ModuleProperties> {
     lastName = null;
     email = null;
     referralCode = null;
+    referralCount = null;
+    id = null;
+    bankName = null;
+    accountName = null;
+    accountNumber = null;
     signedIn = false;
     notifyListeners(ModuleProperties.accounts);
   }
@@ -103,4 +119,21 @@ mixin AccountsModule on PropertyChangeNotifier<ModuleProperties> {
       "mode": mode,
     });
   }
+
+  Future<JsonResponse> changeBankDetails(String accountNumber, String accountName, String bankName) async {
+    var response = await http.post("/accounts/change_bank_details/", {
+      "bank_name": bankName,
+      "account_name": accountName,
+      "account_number": accountNumber
+    });
+    if(response.status == 200)
+      setAccountsInfo({
+        "bankName": bankName,
+        "accountName": accountName,
+        "accountNumber": accountNumber
+      });
+    return response;
+  }
+
+
 }

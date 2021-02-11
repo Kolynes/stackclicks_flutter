@@ -34,7 +34,7 @@ class SignUpStateController extends State<SignUp> {
         signingUp = false;
       });
       if(response.status == 201) {
-        store.navigatorKey.currentState.pushReplacementNamed("/dashboard");
+        store.navigatorKey.currentState.pushReplacementNamed("/set_bank_details");
       }
       else setState(() {
         if((response.errors["fields"] as String).contains("UNIQUE"))
