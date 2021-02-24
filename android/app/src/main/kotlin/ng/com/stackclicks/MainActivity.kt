@@ -1,4 +1,4 @@
-package com.example.stackclicks_flutter
+package ng.com.stackclicks
 
 import io.flutter.embedding.android.FlutterActivity
 

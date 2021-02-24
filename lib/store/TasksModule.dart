@@ -2,29 +2,24 @@ import 'package:property_change_notifier/property_change_notifier.dart';
 import 'package:stackclicks_flutter/plugins/http.dart';
 import 'package:stackclicks_flutter/store/ModuleProperties.dart';
 import 'package:stackclicks_flutter/utils/Http.dart';
+import 'package:stackclicks_flutter/models/TaskModel.dart';
 
 mixin TasksModule on PropertyChangeNotifier<ModuleProperties> {
-  String url;
-  String title;
-  String body;
-  bool completed;
-  int id;
+  TaskModel task;
 
   setTaskInfo(Map<String, dynamic> data) {
-    url = data["url"] ?? url;
-    title = data["title"] ?? title;
-    body = data["body"] ?? body;
-    completed = data["completed"] ?? completed;
-    id = data["id"] ?? id;
+    task = TaskModel(
+      url: data["url"],
+      title: data["title"],
+      body: data["body"],
+      completed: data["completed"],
+      id: data["id"],
+    );
     notifyListeners(ModuleProperties.tasks);
   }
 
   clearTaskInfo() {
-    url = null;
-    title = null;
-    body = null;
-    completed = null;
-    id = null;
+    task = null;
     notifyListeners(ModuleProperties.tasks);
   }
 
@@ -36,14 +31,19 @@ mixin TasksModule on PropertyChangeNotifier<ModuleProperties> {
   }
 
   Future<JsonResponse> completeTask() async {
-    if(id != null) {
+    if(task != null) {
       var response = await http.post("/tasks/complete/", {
-        "id": id
+        "id": task.id
       });
-      if(response.status == 200)
+      if(response.status == 200) {
         setTaskInfo({
+          "url": task.url,
+          "title": task.title,
+          "body": task.body,
+          "id": task.id,
           "completed": true
         });
+      }
       return response;
     }
     return JsonResponse()

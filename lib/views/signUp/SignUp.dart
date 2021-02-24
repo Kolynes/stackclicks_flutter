@@ -13,6 +13,7 @@ class SignUpStateController extends State<SignUp> {
   final firstNameFocusNode = FocusNode();
   final lastNameFocusNode = FocusNode();
   final emailFocusNode = FocusNode();
+  final referralCodeFocusNode = FocusNode();
   final passwordFocusNode = FocusNode();
 
   bool signingUp = false;
@@ -28,6 +29,7 @@ class SignUpStateController extends State<SignUp> {
     if(signUpFormKey.currentState.validate()) {
       setState((){
         signingUp = true;
+        error = "";
       });
       var response = await store.signUp(email, firstName, lastName, password, referralCode: referralCode);
       setState((){
@@ -37,10 +39,16 @@ class SignUpStateController extends State<SignUp> {
         store.navigatorKey.currentState.pushReplacementNamed("/set_bank_details");
       }
       else setState(() {
-        if((response.errors["fields"] as String).contains("UNIQUE"))
-          error = "Email aleady in use";
+        if(response.errors["fields"].length)
+          if((response.errors["fields"][0] as String).contains("UNIQUE"))
+            error = "Email aleady in use";
+        else error = response.errors["summary"];
       });
     }
+  }
+
+  void toSignIn() {
+    store.navigatorKey.currentState.pushReplacementNamed("/sign_in");
   }
 
   @override

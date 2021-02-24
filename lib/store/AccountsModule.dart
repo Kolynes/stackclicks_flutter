@@ -1,58 +1,58 @@
 import "package:property_change_notifier/property_change_notifier.dart";
+import 'package:stackclicks_flutter/models/UserModel.dart';
 import 'package:stackclicks_flutter/store/ModuleProperties.dart';
 import 'package:stackclicks_flutter/utils/Http.dart';
 import "../plugins/http.dart";
 
 mixin AccountsModule on PropertyChangeNotifier<ModuleProperties> {
-  String firstName;
-  String lastName;
-  String email;
-  String referralCode;
-  int referralCount;
-  int id;
-  String bankName;
-  String accountNumber;
-  String accountName;
-  bool signedIn;
+  UserModel user;
 
   setAccountsInfo(Map<String, dynamic> payload) {
-    firstName = payload["firstName"] ?? firstName;
-    lastName = payload["lastName"] ?? lastName;
-    email = payload["email"] ?? email;
-    referralCode = payload["referralCode"] ?? referralCode;
-    referralCount = payload["referralCount"] ?? referralCount;
-    id = payload["id"] ?? id;
-    bankName = payload["bankName"] ?? bankName;
-    accountName = payload["accountName"] ?? accountName;
-    accountNumber = payload["accountNumber"] ?? accountNumber;
+    user = UserModel(
+      firstName: payload["firstName"],
+      lastName: payload["lastName"],
+      email: payload["email"],
+      referralCode: payload["referralCode"],
+      referralCount: payload["referralCount"],
+      id: payload["id"],
+      bankName: payload["bankName"],
+      accountName: payload["accountName"],
+      accountNumber: payload["accountNumber"],
+      balance: payload["balance"],
+      referralBalance: payload["referralBalance"],
+    );
+    UserModel.manager.save(user);
     notifyListeners(ModuleProperties.accounts);
   }
 
   clearAccountsInfo() {
-    firstName = null;
-    lastName = null;
-    email = null;
-    referralCode = null;
-    referralCount = null;
-    id = null;
-    bankName = null;
-    accountName = null;
-    accountNumber = null;
-    signedIn = false;
+    if(user != null)
+      UserModel.manager.delete(user);
+    user = null;
     notifyListeners(ModuleProperties.accounts);
   }
 
-  Future<bool> ping() async {
+  Future<void> accountsModuleInit() async {
+    var users = await UserModel.manager.all();
+    if(users.length > 0)
+      user = users[0];
+  }
+
+  Future<JsonResponse> ping() async {
     var response = await http.get("/accounts/ping/");
     if(response.status == 200)
       setAccountsInfo(response.data);
-    return response.status == 200;
+    else if(response.status != 500){
+      clearAccountsInfo();
+      signOut();
+    } 
+    return response;
   }
 
   Future<JsonResponse> signIn(String email, String password) async {
-    var response = await http.post("/accounts/sign_in/", {
+    var response = await http.post("/accounts/sign_in/?r=true", {
       "email": email,
-      "password": password
+      "password": password,
     });
     if(response.status == 200) 
       ping();
@@ -87,7 +87,7 @@ mixin AccountsModule on PropertyChangeNotifier<ModuleProperties> {
   Future<JsonResponse> changePassword(String newPassword, String oldPassword) async {
     return await http.post("/accounts/change_password/", {
       "new_password": newPassword,
-      "old_passsword": oldPassword
+      "old_password": oldPassword
     });
   }
 
@@ -100,21 +100,21 @@ mixin AccountsModule on PropertyChangeNotifier<ModuleProperties> {
   }
 
   Future<JsonResponse> verifyCode(String username, String code) async {
-    return await http.post("/accounts/reset_password/", {
+    return await http.post("/accounts/verify_code/", {
       "username": username,
       "code": code,
     });
   }
 
   Future<JsonResponse> sendVerificationCode({String username: "", String mode: "resend"}) async {
-    return await http.post("/accounts/reset_password/", {
+    return await http.post("/accounts/send_verification_code/", {
       "username": username,
       "mode": mode,
     });
   }
 
   Future<JsonResponse> sendVerificationLink({String username: "", String mode: "resend"}) async {
-    return await http.post("/accounts/reset_password/", {
+    return await http.post("/accounts/send_verification_link/", {
       "username": username,
       "mode": mode,
     });

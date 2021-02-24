@@ -7,8 +7,9 @@ import 'package:stackclicks_flutter/utils/Http.dart';
 
 mixin PaymentsModule on PropertyChangeNotifier<ModuleProperties> {
   List<PaymentModel> payments;
+  PaymentModel activePayment;
 
-  setPayments(List<Map<String, dynamic>> data, bool hasNextPage) {
+  setPayments(List<dynamic> data) {
     payments = List.generate(data.length, (index) => PaymentModel(
       id: data[index]["id"],
       packagePrice: data[index]["packagePrice"],
@@ -19,7 +20,7 @@ mixin PaymentsModule on PropertyChangeNotifier<ModuleProperties> {
     notifyListeners(ModuleProperties.payments);
   }
 
-  addPayments(List<Map<String, dynamic>> data, bool hasNextPage) {
+  addPayments(List<dynamic> data) {
     payments.addAll(List.generate(data.length, (index) => PaymentModel(
       id: data[index]["id"],
       packagePrice: data[index]["packagePrice"],
@@ -30,27 +31,51 @@ mixin PaymentsModule on PropertyChangeNotifier<ModuleProperties> {
     notifyListeners(ModuleProperties.payments);
   }
 
-  clearPayments() {
-    payments = null;
+  setActivePayment(Map<String, dynamic> data) {
+    activePayment = PaymentModel(
+      id: data["id"],
+      packagePrice: data["packagePrice"],
+      package: data["package"],
+      createdOn: data["createdOn"],
+      isActive: data["isActive"],
+    );
     notifyListeners(ModuleProperties.payments);
   }
 
-  Future<JsonResponse> getPayments(int page) async {
+  clearPayments() {
+    payments = null;
+    activePayment = null;
+    notifyListeners(ModuleProperties.payments);
+  }
+
+  Future<JsonResponse> getPayments({int page: 1}) async {
     var response = await http.get("/payments/get/", queryParameters: {
       "page": page
     });
     if(response.status == 200) {
       if(page == 1)
-        setPayments(response.data, response.hasNextPage);
-      else addPayments(response.data, response.hasNextPage);
+        setPayments(response.data);
+      else addPayments(response.data);
     }
     return response;
   }
 
-  Future<JsonResponse> pay(String reference, String package) async {
+  Future<JsonResponse> pay(String coupon) async {
     var response = await http.post("/payments/pay/", {
-      "reference": reference,
-      "package": package
+      "coupon": coupon,
     });
+    if(response.status == 201) {
+      getPayments();
+      getActivePayment();
+    }
+    return response;
   }
+
+  Future<JsonResponse> getActivePayment() async {
+    var response = await http.get("/payments/get_active/");
+    if(response.status == 200)
+      setActivePayment(response.data);
+    return response;
+  }
+  
 }

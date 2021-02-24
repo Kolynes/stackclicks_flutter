@@ -12,49 +12,60 @@ class PasswordRecoveryStateController extends State<PasswordRecovery> {
   final GlobalKey<FormState> sendVerificationCodeFormKey = GlobalKey();
   final GlobalKey<FormState> verifyCodeFormKey = GlobalKey();
   final GlobalKey<FormState> resetPasswordFormKey = GlobalKey();
+  final emailFocusNode = FocusNode();
+  final passwordFocusNode = FocusNode();
+  final codeFocusNode = FocusNode();
 
   String email = "", code = "", newPassword = "";
   bool sendingVerificationCode = false, verifyingCode = false, resettingPassword = false;
   int step = 0;
 
+  @override 
+  void initState() {
+    emailFocusNode.requestFocus();
+    super.initState();
+  }
+
   void sendVerificationCode() async {
-    if(sendVerificationCodeFormKey.currentState.validate()) {
+    if(sendVerificationCodeFormKey.currentState.validate() && !sendingVerificationCode) {
       setState(() {
         sendingVerificationCode = true;
       });
-      var response = await store.sendVerificationCode(username: email);
+      var response = await store.sendVerificationCode(username: email.trim());
       setState(() {
         sendingVerificationCode = false;
       });
       if(response.status == 200)
         setState(() {
           step++;
+          passwordFocusNode.requestFocus();
         });
     }
   }
 
   void verifyCode() async {
-    if(verifyCodeFormKey.currentState.validate()) {
+    if(verifyCodeFormKey.currentState.validate() && !verifyingCode) {
       setState(() {
         verifyingCode = true;
       });
-      var response = await store.verifyCode(email, code);
+      var response = await store.verifyCode(email.trim(), code.trim());
       setState(() {
         verifyingCode = false;
       });
       if(response.status == 200)
         setState(() {
           step++;
+          codeFocusNode.requestFocus();
         });
     }
   }
 
   void resetPassword() async {
-    if(resetPasswordFormKey.currentState.validate()) {
+    if(resetPasswordFormKey.currentState.validate() && !resettingPassword) {
       setState(() {
         resettingPassword = true;
       });
-      var response = await store.resetPassword(email, code, newPassword);
+      var response = await store.resetPassword(email.trim(), code.trim(), newPassword.trim());
       setState(() {
         resettingPassword = false;
       });

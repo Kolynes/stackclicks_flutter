@@ -6,29 +6,29 @@ import 'package:stackclicks_flutter/utils/Http.dart';
 
 mixin VendorsModule on PropertyChangeNotifier<ModuleProperties> {
   List<VendorModel> vendors;
-  int page = 1;
 
-  setVendors(List<Map<String, dynamic>> data) {
+  setVendors(List<dynamic> data) {
     vendors = List.generate(data.length, (index) => VendorModel(
       name: data[index]["name"],
+      whatsappLink: data[index]["whatsappLink"]
     ));
     notifyListeners(ModuleProperties.vendors);
   }
 
-  addVendors(List<Map<String, dynamic>> data) {
+  addVendors(List<dynamic> data) {
     vendors.addAll(List.generate(data.length, (index) => VendorModel(
       name: data[index]["name"],
+      whatsappLink: data[index]["whatsappLink"]
     )));
     notifyListeners(ModuleProperties.vendors);
   }
 
   clearvendors() {
     vendors = null;
-    page = 1;
     notifyListeners(ModuleProperties.vendors);
   }
 
-  Future<JsonResponse> getVendors() async {
+  Future<JsonResponse> getVendors({int page: 1}) async {
     var response = await http.get("/vendors/get/", queryParameters: {
       "page": page
     });

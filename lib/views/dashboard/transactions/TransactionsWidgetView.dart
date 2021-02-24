@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:stackclicks_flutter/components/widget_view_pattern/WidgetView.dart';
+import 'package:stackclicks_flutter/views/dashboard/transactions/payments/Payments.dart';
+import 'package:stackclicks_flutter/views/dashboard/transactions/vendors/Vendors.dart';
+import 'package:stackclicks_flutter/views/dashboard/transactions/withdrawalRequests/WithdrawalRequests.dart';
 import 'Transactions.dart';
 
 class TransactionsWidgetView extends WidgetView<Transactions, TransactionsStateController> {
@@ -7,6 +10,30 @@ class TransactionsWidgetView extends WidgetView<Transactions, TransactionsStateC
 
   @override 
   Widget build(BuildContext context) { 
-    return Container();
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        key: state.scaffoldKey,
+        appBar: AppBar(
+          title: Text("Transactions"),
+          bottom: TabBar(
+            indicatorColor: Colors.white,
+            tabs: <Widget>[
+              Tab(text: "Payments"),
+              Tab(text: "Withdrawals"),
+              Tab(text: "Vendors"),
+            ]
+          ),
+          elevation: 0,
+        ),
+        body: TabBarView(
+          children: [
+            Payments(state),
+            WithdrawalRequests(state),
+            Vendors(state)
+          ]
+        )
+      ),
+    );
   }
 }

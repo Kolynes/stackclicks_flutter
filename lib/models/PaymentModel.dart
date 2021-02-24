@@ -2,7 +2,7 @@
 class PaymentModel { 
   int id;
   int packagePrice;
-  int createdOn;
+  double createdOn;
   String package;
   bool isActive;
 

@@ -12,7 +12,10 @@ class ChangeBankDetailsStateController extends State<ChangeBankDetails> {
   final accountNameFocusNode = FocusNode();
   final accountNumberFocusNode = FocusNode();
   final changeBankDetailsFormKey = GlobalKey<FormState>();
-  String bankName = "", accountName = "", accountNumber = "", error = "";
+  String bankName = store.user.bankName,
+    accountName = store.user.accountName,
+    accountNumber = store.user.accountNumber,
+    error = "";
   bool changingBankDetails = false;
 
   @override
@@ -25,8 +28,9 @@ class ChangeBankDetailsStateController extends State<ChangeBankDetails> {
     if(changeBankDetailsFormKey.currentState.validate()) {
       setState(() {
         changingBankDetails = true;
+        error = "";
       });
-      var response = await store.changeBankDetails(accountNumber, accountName, bankName);
+      var response = await store.changeBankDetails(accountNumber.trim(), accountName.trim(), bankName.trim());
       setState(() {
         changingBankDetails = false;
       });

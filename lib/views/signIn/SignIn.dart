@@ -23,11 +23,12 @@ class SignInStateController extends State<SignIn> {
   }
 
   void signIn() async {
-    if(signInFormKey.currentState.validate()){
+    if(signInFormKey.currentState.validate() && !signingIn){
       setState((){
         signingIn = true;
+        error = "";
       });
-      var response = await store.signIn(email, password);
+      var response = await store.signIn(email.trim(), password.trim());
       if(response.status == 200) {
         store.navigatorKey.currentState.pushReplacementNamed("/dashboard/home");
       }
@@ -36,6 +37,10 @@ class SignInStateController extends State<SignIn> {
         error = response.errors["summary"];
       });
     }
+  }
+
+  void toSignUp() async {
+    store.navigatorKey.currentState.pushReplacementNamed("/sign_up");
   }
 
   void toPasswordRecovery() {

@@ -25,8 +25,9 @@ class SetBankDetailsStateController extends State<SetBankDetails> {
     if(setBankDetailsFormKey.currentState.validate()) {
       setState(() {
         settingBankDetails = true;
+        error = "";
       });
-      var response = await store.changeBankDetails(accountNumber, accountName, bankName);
+      var response = await store.changeBankDetails(accountNumber.trim(), accountName.trim(), bankName.trim());
       setState(() {
         settingBankDetails = false;
       });

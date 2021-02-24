@@ -7,4 +7,6 @@ class ModuleProperties extends Enum<String> {
   static final payments = ModuleProperties("payments");
   static final tasks = ModuleProperties("tasks");
   static final vendors = ModuleProperties("vendors");
+  static final messages = ModuleProperties("messages");
+  static final withdrawalRequests = ModuleProperties("withdrawalRequests");
 }
