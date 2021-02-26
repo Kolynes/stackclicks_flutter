@@ -1,10 +1,8 @@
-import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:minimize_app/minimize_app.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:stackclicks_flutter/store/Store.dart';
 import 'package:stackclicks_flutter/utils/ScaffoldMessenger.dart';
-import 'package:stackclicks_flutter/utils/admobIds.dart';
 
 import 'HomeWidgetView.dart';
 
@@ -28,15 +26,6 @@ class HomeStateController extends State<Home> with ScaffoldMessenger<Home>{
   @override 
   void initState() {
     onRefresh();
-    AdmobInterstitial interstitialAd;
-    interstitialAd = AdmobInterstitial(
-      adUnitId: getInterstitialAdUnitId(),
-      listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-        if (event == AdmobAdEvent.closed) interstitialAd.load();
-      },
-    );
-    interstitialAd.load();
-    interstitialAd.show();
     super.initState();
   }
 

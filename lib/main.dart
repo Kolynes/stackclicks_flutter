@@ -1,4 +1,3 @@
-import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 import 'package:stackclicks_flutter/models/models.dart';
@@ -10,7 +9,6 @@ import 'themes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Admob.initialize();
   await ModelManager.registerModels(models);
   await store.init();
   runApp(

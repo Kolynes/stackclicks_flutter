@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "308531598930",
+    "project_id": "stackclicksng",
+    "storage_bucket": "stackclicksng.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:308531598930:android:db5c085aad7783c168b18b",
+        "android_client_info": {
+          "package_name": "ng.com.stackclicks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "308531598930-gcoud3lpj5qc50sj30kb1kjubhfgjfcb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCm_bHnGocKSQ_FAKn0c76fZ2OjBv3mr70"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "308531598930-gcoud3lpj5qc50sj30kb1kjubhfgjfcb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

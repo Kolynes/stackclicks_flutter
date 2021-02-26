@@ -39,8 +39,9 @@ class SignUpStateController extends State<SignUp> {
         store.navigatorKey.currentState.pushReplacementNamed("/set_bank_details");
       }
       else setState(() {
-        if(response.errors["fields"].length)
-          if((response.errors["fields"][0] as String).contains("UNIQUE"))
+        if(response.errors["fields"].length != 0)
+        print(response.errors["fields"]);
+          if(response.errors["fields"].toString().contains("Duplicate"))
             error = "Email aleady in use";
         else error = response.errors["summary"];
       });

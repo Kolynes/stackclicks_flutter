@@ -369,22 +369,24 @@ class HomeWidgetView extends WidgetView<Home, HomeStateController> {
                                   )
                                 ],
                               )
-                              :Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    MdiIcons.messageOutline,
-                                    size: 200,
-                                    color: Colors.white38
-                                  ),
-                                  Text(
-                                    "No Message found",
-                                    style: TextStyle(
-                                      color: Colors.white
+                              :Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      MdiIcons.messageOutline,
+                                      size: 200,
+                                      color: Colors.white38
+                                    ),
+                                    Text(
+                                      "No Message found",
+                                      style: TextStyle(
+                                        color: Colors.white
+                                      )
                                     )
-                                  )
-                                ],
+                                  ],
+                                ),
                               )
                         ],
                       ),
