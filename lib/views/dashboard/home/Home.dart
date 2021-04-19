@@ -1,6 +1,10 @@
+import 'dart:io';
+
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:minimize_app/minimize_app.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:stackclicks_flutter/settings.dart';
 import 'package:stackclicks_flutter/store/Store.dart';
 import 'package:stackclicks_flutter/utils/ScaffoldMessenger.dart';
 
@@ -14,6 +18,7 @@ class Home extends StatefulWidget {
 class HomeStateController extends State<Home> with ScaffoldMessenger<Home>{
   final refreshController = RefreshController();
   bool pinging = true, loadingMessage = true, loadingActivePayment = true;
+  AdmobInterstitial interstitialAd;
 
   bool get currentTaskIsActive {
     if(store.task != null)
@@ -25,6 +30,10 @@ class HomeStateController extends State<Home> with ScaffoldMessenger<Home>{
 
   @override 
   void initState() {
+    interstitialAd = AdmobInterstitial(
+      adUnitId: admobIds["interstitial"]["android"],
+    );
+    interstitialAd.load();
     onRefresh();
     super.initState();
   }
@@ -48,6 +57,7 @@ class HomeStateController extends State<Home> with ScaffoldMessenger<Home>{
   }
 
   void goTo(int page) {
+    interstitialAd.show();
     if(page > 0)
       store.navigatorKey.currentState.pushNamed([
         "/dashboard/tasks",
@@ -57,10 +67,12 @@ class HomeStateController extends State<Home> with ScaffoldMessenger<Home>{
   }
 
   void gotoRequestWithdrawal() async {
+    interstitialAd.show();
     success = (await store.navigatorKey.currentState.pushNamed("/dashboard/transactions/request_withdrawal") as String);
   }
 
   void gotoPay() async {
+    interstitialAd.show();
     success = (await store.navigatorKey.currentState.pushNamed("/dashboard/transactions/pay") as String);
   }
 

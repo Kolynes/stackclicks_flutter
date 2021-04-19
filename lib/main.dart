@@ -1,3 +1,4 @@
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 import 'package:stackclicks_flutter/models/models.dart';
@@ -11,6 +12,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await ModelManager.registerModels(models);
   await store.init();
+  Admob.initialize();
   runApp(
     PropertyChangeProvider<Store>(
       value: store, 

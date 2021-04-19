@@ -1,5 +1,9 @@
+import 'dart:io';
+
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:stackclicks_flutter/settings.dart';
 import 'package:stackclicks_flutter/store/Store.dart';
 import 'package:stackclicks_flutter/utils/ScaffoldMessenger.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -16,9 +20,14 @@ class TasksStateController extends State<Tasks> with ScaffoldMessenger<Tasks>{
   YoutubePlayerController youtubePlayerController;
   bool gettingTask = true;
   String error = "";
+  AdmobInterstitial interstitialAd;
 
   @override 
   void initState() {
+    interstitialAd = AdmobInterstitial(
+      adUnitId: admobIds["interstitial"]["android"],
+    );
+    interstitialAd.load();
     onRefresh();
     super.initState();
   }
@@ -47,6 +56,7 @@ class TasksStateController extends State<Tasks> with ScaffoldMessenger<Tasks>{
   }
 
   void gotoPay() async {
+    interstitialAd.show();
     success = (await store.navigatorKey.currentState.pushNamed("/dashboard/transactions/pay") as String);
   }
   

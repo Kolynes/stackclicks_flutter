@@ -33,7 +33,7 @@ class RequestWithdrawalStateController extends State<RequestWithdrawal> {
   String balanceValidator(String value) {
     if(requestType == "Balance" && double.parse(value) > store.user.balance)
       return "Maximum withdrawable is ${store.user.balance}";
-    else if(double.parse(value) > store.user.referralBalance)
+    else if(requestType == "Referral" && double.parse(value) > store.user.referralBalance)
       return "Maximum withdrawable is ${store.user.referralBalance}";
     else return null;
   }

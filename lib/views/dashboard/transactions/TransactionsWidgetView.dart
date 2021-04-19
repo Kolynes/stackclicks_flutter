@@ -1,5 +1,7 @@
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:stackclicks_flutter/components/widget_view_pattern/WidgetView.dart';
+import 'package:stackclicks_flutter/settings.dart';
 import 'package:stackclicks_flutter/views/dashboard/transactions/payments/Payments.dart';
 import 'package:stackclicks_flutter/views/dashboard/transactions/vendors/Vendors.dart';
 import 'package:stackclicks_flutter/views/dashboard/transactions/withdrawalRequests/WithdrawalRequests.dart';
@@ -26,12 +28,19 @@ class TransactionsWidgetView extends WidgetView<Transactions, TransactionsStateC
           ),
           elevation: 0,
         ),
-        body: TabBarView(
+        body: Column(
           children: [
-            Payments(state),
-            WithdrawalRequests(state),
-            Vendors(state)
-          ]
+            Expanded(
+              child: TabBarView(
+                children: [
+                  Payments(state),
+                  WithdrawalRequests(state),
+                  Vendors(state)
+                ]
+              ),
+            ),
+            AdmobBanner(adUnitId: admobIds["banner"]["android"], adSize: AdmobBannerSize.FULL_BANNER),
+          ],
         )
       ),
     );

@@ -46,7 +46,7 @@ class PasswordFormFieldWidgetView extends WidgetView<PasswordFormField, Password
       smartDashesType: state.widget.smartDashesType,
       smartQuotesType: state.widget.smartQuotesType,
       enableSuggestions: state.widget.enableSuggestions,
-      autovalidate: state.widget.autovalidate, 
+      autovalidateMode: state.widget.autovalidateMode, 
       maxLengthEnforced: state.widget.maxLengthEnforced,
       maxLines: state.widget.maxLines, 
       minLines: state.widget.minLines,

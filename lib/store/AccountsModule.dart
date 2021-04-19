@@ -9,7 +9,7 @@ mixin AccountsModule on PropertyChangeNotifier<ModuleProperties> {
 
   setAccountsInfo(Map<String, dynamic> payload) {
     user = UserModel(
-      firstName: payload["firstName"],
+      firstName: payload["firstName"] ?? user.firstName,
       lastName: payload["lastName"],
       email: payload["email"],
       referralCode: payload["referralCode"],
@@ -127,11 +127,11 @@ mixin AccountsModule on PropertyChangeNotifier<ModuleProperties> {
       "account_number": accountNumber
     });
     if(response.status == 200)
-      setAccountsInfo({
+      setAccountsInfo(user.toMap()..addAll({
         "bankName": bankName,
         "accountName": accountName,
         "accountNumber": accountNumber
-      });
+      }));
     return response;
   }
 

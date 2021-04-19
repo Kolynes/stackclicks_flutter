@@ -27,7 +27,7 @@ class PasswordFormField extends StatefulWidget {
   final SmartDashesType smartDashesType;
   final SmartQuotesType smartQuotesType;
   final bool enableSuggestions;
-  final bool autovalidate;
+  final AutovalidateMode autovalidateMode;
   final bool maxLengthEnforced;
   final int maxLines;
   final int minLines;
@@ -75,7 +75,7 @@ class PasswordFormField extends StatefulWidget {
       this.smartDashesType,
       this.smartQuotesType,
       this.enableSuggestions = true,
-      this.autovalidate = false,
+      this.autovalidateMode = AutovalidateMode.disabled,
       this.maxLengthEnforced: true,
       this.maxLines = 1,
       this.minLines,

@@ -1,3 +1,4 @@
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -5,6 +6,7 @@ import 'package:property_change_notifier/property_change_notifier.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:stackclicks_flutter/components/scrollable_page.dart';
 import 'package:stackclicks_flutter/components/widget_view_pattern/WidgetView.dart';
+import 'package:stackclicks_flutter/settings.dart';
 import 'package:stackclicks_flutter/store/ModuleProperties.dart';
 import 'package:stackclicks_flutter/store/Store.dart';
 import 'package:stackclicks_flutter/utils/time.dart';
@@ -264,6 +266,7 @@ class HomeWidgetView extends WidgetView<Home, HomeStateController> {
                       )
                     )
                   ),
+                  AdmobBanner(adUnitId: admobIds["banner"]["android"], adSize: AdmobBannerSize.BANNER),
                   Card(
                     margin: EdgeInsets.all(8.0),
                     child: Padding(
@@ -315,6 +318,7 @@ class HomeWidgetView extends WidgetView<Home, HomeStateController> {
                       )
                     )
                   ),
+                  AdmobBanner(adUnitId: admobIds["banner"]["android"], adSize: AdmobBannerSize.BANNER),
                   Card(
                     margin: EdgeInsets.all(8.0),
                     color: Theme.of(context).primaryColor,
@@ -391,7 +395,8 @@ class HomeWidgetView extends WidgetView<Home, HomeStateController> {
                         ],
                       ),
                     )
-                  )
+                  ),
+                  AdmobBanner(adUnitId: admobIds["banner"]["android"], adSize: AdmobBannerSize.BANNER),
                 ]
               )
             ),

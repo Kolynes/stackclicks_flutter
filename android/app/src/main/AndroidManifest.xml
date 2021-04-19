@@ -3,10 +3,6 @@
    <application
         android:label="Stackclicks"
         android:icon="@mipmap/ic_launcher">
-        <meta-data
-          android:name="com.google.android.gms.ads.APPLICATION_ID"
-          android:value="ca-app-pub-3940256099942544~3347511713"
-          />
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -41,5 +37,8 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-1010416662425855~8691763025"/>
     </application>
 </manifest>
